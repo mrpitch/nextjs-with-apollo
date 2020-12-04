@@ -1,26 +1,7 @@
 import { gql, useQuery, NetworkStatus } from '@apollo/client'
+import { ALL_POSTS_QUERY, allPostsQueryVars } from '../lib/queries'
 import ErrorMessage from './ErrorMessage'
 import PostUpvoter from './PostUpvoter'
-
-export const ALL_POSTS_QUERY = gql`
-  query allPosts($first: Int!, $skip: Int!) {
-    allPosts(orderBy: { createdAt: desc }, first: $first, skip: $skip) {
-      id
-      title
-      votes
-      url
-      createdAt
-    }
-    _allPostsMeta {
-      count
-    }
-  }
-`
-
-export const allPostsQueryVars = {
-  skip: 0,
-  first: 10,
-}
 
 export default function PostList() {
   const { loading, error, data, fetchMore, networkStatus } = useQuery(
@@ -57,7 +38,7 @@ export default function PostList() {
           <li key={post.id}>
             <div>
               <span>{index + 1}. </span>
-              <a href={post.url}>{post.title}</a>
+              <a href={`/${post.id}`}>{post.title}</a>
               <PostUpvoter id={post.id} votes={post.votes} />
             </div>
           </li>
