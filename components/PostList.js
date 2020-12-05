@@ -15,12 +15,6 @@ export default function PostList() {
     }
   )
 
-
-  //const { posts } = data
-  console.log(data) //why is this running twice & why is this undefined during the frist run
-  //define empty edges array to get page rendered client-only (when loaded initially and apollo cache  is empty)
-  const posts = {edges:[]}
-
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore
 
   const loadMorePosts = () => {
@@ -34,6 +28,7 @@ export default function PostList() {
   if (error) return <ErrorMessage message="Error loading posts." />
   if (loading && !loadingMorePosts) return <div>Loading</div>
 
+  const { posts } = data
   const areMorePosts = posts.edges.length < 30
 
   return (
