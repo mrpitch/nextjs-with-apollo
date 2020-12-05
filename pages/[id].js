@@ -2,8 +2,7 @@ import App from "../components/App"
 import Header from "../components/Header"
 import {
   GET_POST_QUERY,
-  ALL_POSTS_QUERY,
-  getAllPostsQueryVars,
+  ALL_POST_IDS,
 } from "../lib/queries"
 import { initializeApollo, addApolloState } from "../lib/apolloClient"
 
@@ -46,8 +45,10 @@ export async function getStaticPaths() {
   const apolloClient = initializeApollo()
 
   const { data } = await apolloClient.query({
-    query: ALL_POSTS_QUERY,
-    variables: getAllPostsQueryVars,
+    query: ALL_POST_IDS,
+    variables: {
+      first: 30
+    },
   });
 
   const paths = data.allPosts.map((post) => ({
@@ -56,7 +57,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 
