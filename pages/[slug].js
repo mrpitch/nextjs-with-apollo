@@ -23,10 +23,10 @@ const PostDetail = ({ data }) => {
   );
 };
 
-export async function getStaticProps({ params: { id } }) {
+export async function getStaticProps({ params: { slug } }) {
   const apolloClient = initializeApollo();
   const PostQueryVars = {
-    id: id,
+    id: slug,
   };
 
   const { data } = await apolloClient.query({
@@ -50,7 +50,7 @@ export async function getStaticPaths() {
   });
 
   const paths = data.posts.edges.map((post) => ({
-    params: { id: post.node.slug },
+    params: { slug: post.node.slug },
   }));
 
   return {
