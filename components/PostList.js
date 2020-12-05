@@ -1,4 +1,4 @@
-import { gql, useQuery, NetworkStatus } from '@apollo/client'
+import { useQuery, NetworkStatus } from '@apollo/client'
 import { ALL_POSTS_QUERY, allPostsQueryVars } from '../lib/queries'
 import ErrorMessage from './ErrorMessage'
 import PostUpvoter from './PostUpvoter'
@@ -38,7 +38,7 @@ export default function PostList() {
           <li key={post.node.id}>
             <div>
               <span>{index + 1}. </span>
-              <a href={`/${post.node.slug}`}>{post.node.title}</a>
+              <a href={`/${post.node.slug}`}>{post.node.title}, {post.node.id}</a>
               <PostUpvoter id={post.node.id} votes={post.node.votes} />
             </div>
           </li>
