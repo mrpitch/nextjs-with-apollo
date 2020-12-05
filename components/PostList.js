@@ -15,12 +15,13 @@ export default function PostList() {
     }
   )
 
+  const { posts } = data
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore
 
   const loadMorePosts = () => {
     fetchMore({
       variables: {
-        skip: allPosts.length,
+        skip: posts.edges.length,
       },
     })
   }
@@ -28,18 +29,17 @@ export default function PostList() {
   if (error) return <ErrorMessage message="Error loading posts." />
   if (loading && !loadingMorePosts) return <div>Loading</div>
 
-  const { allPosts, _allPostsMeta } = data
-  const areMorePosts = allPosts.length < _allPostsMeta.count
+  const areMorePosts = posts.edges.length < 30
 
   return (
     <section>
       <ul>
-        {allPosts.map((post, index) => (
-          <li key={post.id}>
+        {posts.edges.map((post, index) => (
+          <li key={post.node.id}>
             <div>
               <span>{index + 1}. </span>
-              <a href={`/${post.id}`}>{post.title}</a>
-              <PostUpvoter id={post.id} votes={post.votes} />
+              <a href={`/${post.node.slug}`}>{post.node.title}</a>
+              <PostUpvoter id={post.node.id} votes={post.node.votes} />
             </div>
           </li>
         ))}
