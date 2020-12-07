@@ -20,7 +20,7 @@ export default function PostList() {
   const loadMorePosts = () => {
 		fetchMore({
 			variables: {
-				after: ""//posts.pageInfo.endCursor,
+				after: posts.pageInfo.endCursor,
 			},
 		})
 
@@ -30,7 +30,7 @@ export default function PostList() {
   if (loading && !loadingMorePosts) return <div>Loading</div>
 
   const { posts } = data
-  const areMorePosts = true //posts.pageInfo.hasNextPage
+  const areMorePosts = posts.pageInfo.hasNextPage
 
   return (
     <section>
