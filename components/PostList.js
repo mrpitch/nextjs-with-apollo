@@ -18,18 +18,19 @@ export default function PostList() {
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore
 
   const loadMorePosts = () => {
-    fetchMore({
-      variables: {
-        skip: posts.edges.length,
-      },
-    })
-  }
+		fetchMore({
+			variables: {
+				after: posts.pageInfo.endCursor,
+			},
+		})
+
+	}
 
   if (error) return <ErrorMessage message="Error loading posts." />
   if (loading && !loadingMorePosts) return <div>Loading</div>
 
   const { posts } = data
-  const areMorePosts = posts.edges.length < 30
+  const areMorePosts = posts.pageInfo.hasNextPage
 
   return (
     <section>
@@ -44,11 +45,12 @@ export default function PostList() {
           </li>
         ))}
       </ul>
-      {areMorePosts && (
-        <button onClick={() => loadMorePosts()} disabled={loadingMorePosts}>
+      {areMorePosts ? (
+        <button onClick={loadMorePosts} disabled={loadingMorePosts}>
           {loadingMorePosts ? 'Loading...' : 'Show More'}
         </button>
-      )}
+				) : null}
+
       <style jsx>{`
         section {
           padding-bottom: 20px;
