@@ -19,7 +19,10 @@ Please follow instructions [as described here](https://github.com/vercel/next.js
 #### Enpoint url
 create `.env.local` file in root directory (copy & paste `.env-development`) and paste your endpoint url.
 The endpoint url is used in `lib/apolloClient.js`
-Warning: currently there is still a bug when using .env variables for client only version. To avoid this place your endpoint url directly in `lib/apolloClient.js`
+Warning: currently there is still a bug when using .env variables for client only version and load more feature. To avoid this place your endpoint url directly in `lib/apolloClient.js`
+
+#### Note
+Voting & creation mutation is not supported yet.
 
 ### Dev
 
