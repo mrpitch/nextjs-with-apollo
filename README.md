@@ -11,15 +11,27 @@ Additionally PostDetail pages are added including dynimac path rendering at buil
 This example relies on [Prisma + Nexus](https://github.com/prisma-labs/nextjs-graphql-api-examples) for its GraphQL backend.
 
 ## Getting Started
-### For next.js app:
+### Prerequesites
+
+#### Wordpress & wpgraphql
+Please follow instructions [as described here](https://github.com/vercel/next.js/tree/canary/examples/cms-wordpress) to setup Wordpress to use with this Repo
+
+#### Enpoint url
+create `.env.local` file in root directory (copy & paste `.env-development`) and paste your endpoint url.
+The endpoint url is used in `lib/apolloClient.js`
+Warning: currently there is still a bug when using .env variables for client only version and load more feature. To avoid this place your endpoint url directly in `lib/apolloClient.js`
+
+#### Note
+Voting & creation mutation is not supported yet.
+
+### Dev
 
 ```bash
 yarn dev
 ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Build
-### For Next.js app:
+### Build
 ```bash
 yarn build
 yarn start
