@@ -1,7 +1,6 @@
-import { gql, useQuery, NetworkStatus } from '@apollo/client'
+import { useQuery, NetworkStatus } from '@apollo/client'
 import { ALL_POSTS_QUERY, allPostsQueryVars } from '../lib/queries'
 import ErrorMessage from './ErrorMessage'
-import PostUpvoter from './PostUpvoter'
 
 export default function PostList() {
   const { loading, error, data, fetchMore, networkStatus } = useQuery(
@@ -18,37 +17,38 @@ export default function PostList() {
   const loadingMorePosts = networkStatus === NetworkStatus.fetchMore
 
   const loadMorePosts = () => {
-    fetchMore({
-      variables: {
-        skip: allPosts.length,
-      },
-    })
-  }
+		fetchMore({
+			variables: {
+				after: posts.pageInfo.endCursor,
+			},
+		})
+
+	}
 
   if (error) return <ErrorMessage message="Error loading posts." />
   if (loading && !loadingMorePosts) return <div>Loading</div>
 
-  const { allPosts, _allPostsMeta } = data
-  const areMorePosts = allPosts.length < _allPostsMeta.count
+  const { posts } = data
+  const areMorePosts = posts.pageInfo.hasNextPage
 
   return (
     <section>
       <ul>
-        {allPosts.map((post, index) => (
-          <li key={post.id}>
+        {posts.edges.map((post, index) => (
+          <li key={post.node.id}>
             <div>
               <span>{index + 1}. </span>
-              <a href={`/${post.id}`}>{post.title}</a>
-              <PostUpvoter id={post.id} votes={post.votes} />
+              <a href={`/${post.node.slug}`}>{post.node.title}, {post.node.id}</a>
             </div>
           </li>
         ))}
       </ul>
-      {areMorePosts && (
-        <button onClick={() => loadMorePosts()} disabled={loadingMorePosts}>
+      {areMorePosts ? (
+        <button onClick={loadMorePosts} disabled={loadingMorePosts}>
           {loadingMorePosts ? 'Loading...' : 'Show More'}
         </button>
-      )}
+				) : null}
+
       <style jsx>{`
         section {
           padding-bottom: 20px;
